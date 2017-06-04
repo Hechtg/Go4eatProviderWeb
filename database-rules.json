@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "all_orders": {
+      ".read": true,
+      ".write": true
+    },
+    "providers": {
+      ".read": true,
+      ".write": true
+    },
+    "users": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}

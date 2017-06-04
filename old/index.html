@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <title>Go4eat Providers - By Guy Hecht</title>
+    <!-- Latest compiled Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Latest compiled JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" type="text/css" href="Go4eatProvider.css">
+    <!-- Latest compiled JavaScript -->
+    <script src="Go4eatProvider.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <!--Pattern HTML-->
+    <div id="pattern" class="pattern floating-menu">
+      <!--Begin Pattern HTML-->
+      <a href="#menu" class="menu-link"> <span class="glyphicon glyphicon-menu-hamburger"></span></a>
+      <nav id="menu" role="navigation">
+        <ul>
+          <!-- <li><a id="menuHomeButton" href="#"><img class="img-responsive" id="menuHomeButtonLogo" src="https://firebasestorage.googleapis.com/v0/b/go4eatprovider-5dac4.appspot.com/o/go4eat_photos%2Fgo4eat-logo8.png?alt=media&token=77034100-ee2d-43bb-8fa0-d96dfabf412c" alt="Home"></a></li> -->
+          <li><a id="menuHomeButton" title="Show home-page" href="#" onclick="showHomePage()">Home</a></li>
+          <li><a id="menuShowCurrentOrdersClick" title="Show the orders I still need to provide" href="#" onclick="showLiveOrdersTable();return false;">On Going Orders</a></li>
+          <li><a id="menuShowOnholdOrdersClick" title="Show orders that were put on hold due to fulfillment issues" href="#" onclick="showOnholdOrdersTable();return false;">On Hold Orders</a></li>
+          <li><a id="menuShowTodaysFinishedOrdersClick" title="Show today's finished orders" href="#" onclick="showFinishedOrdersTable();return false;">Today's Finished Orders</a></li>
+          <li><a id="menuShowOrdersHistoryClick" title="Show all the orders ever made by Go4Eat" href="#" onclick="showOrdersHistoryTable();return false;">Orders History</a></li>
+          <li><a id="menuNotifyMissingIngridientsClick" title="Notify the app about missing ingridients (e.g: No more olives, No more sandwiches etc)" href="#" onclick="notifyMissingIngridients();return false;">Report Missing Ingridients</a></li>
+          <li><a id="menuUpdateRestaurantMenuClick" title="Update the restaurant's menu (e.g: New sandwich, Remove existing dishes etc)" href="#" onclick="showUpdateMyMenuPage();return false;">Update My Menu</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!--End Pattern HTML-->
+    <div class="container"><!-- container -->
+      <div class="pageContent"><!-- pageContent -->
+        <table class="gridTable">
+          <tr class="gridTableTr">
+            <td name="providerPages" id="homePageObject" class="gridTableTd">
+              <img class="img-responsive" id="homeScreenLogo" src="go4eat-logo8.png" alt="go4eat_logo">
+            </td>
+            <td name="providerPages" id="todaysOrdersTable" class="gridTableTd" style="display: none;">On Goin Orders</td>
+            <td name="providerPages" id="onholdOrdersTable" class="gridTableTd" style="display: none;">On Hold Orders</td>
+            <td name="providerPages" id="finishedOrdersTable" class="gridTableTd" style="display: none;">Finished Orders</td>
+            <td name="providerPages" id="ordersHistoryTable" class="gridTableTd" style="display: none;">Orders History</td>
+            <td name="providerPages" id="missingIngridientsReport" class="gridTableTd" style="display: none;">Missing Ingridients Report</td>
+            <td name="providerPages" id="updateMenuScreen" class="gridTableTd" style="display: none;">Update Menu</td>
+          </tr>
+        </table>
+      </div><!-- pageContent -->
+    </div><!-- container -->
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyA9j_49jkNPNYmNJ-YRwpB1F0YX4WEN0WI",
+        authDomain: "go4eatweb.firebaseapp.com",
+        databaseURL: "https://go4eatweb.firebaseio.com",
+        projectId: "go4eatweb",
+        storageBucket: "go4eatweb.appspot.com",
+        messagingSenderId: "455829610429"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+  </body>
+</html>

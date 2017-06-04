@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Go4eat Providers - By Guy Hecht</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <!-- Latest compiled firebase -->
+    <script name="firebaseScripts" src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <!-- Latest compiled Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Latest compiled JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="dialog.css"/> -->
+    <link rel="stylesheet" type="text/css" href="Go4eatProvider.css">
+    <!-- Latest compiled JavaScript -->
+    <script src="Go4eatProvider.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div id="signed_in_body">
+      <!--Pattern HTML-->
+      <div id="pattern" class="pattern floating-menu">
+        <!--Begin Pattern HTML-->
+        <a href="#menu" class="menu-link"> <span class="glyphicon glyphicon-menu-hamburger"></span></a>
+        <nav id="menu" role="navigation">
+          <ul>
+            <!-- <li><a id="menuHomeButton" href="#"><img class="img-responsive" id="menuHomeButtonLogo" src="https://firebasestorage.googleapis.com/v0/b/go4eatprovider-5dac4.appspot.com/o/go4eat_photos%2Fgo4eat-logo8.png?alt=media&token=77034100-ee2d-43bb-8fa0-d96dfabf412c" alt="Home"></a></li> -->
+            <li><a id="menuHomeButton" title="Show home-page" href="#" onclick="showHomePage()">Home</a></li>
+            <li name="signedOutMenu" style="display: none;"><a id="signInButton" title="Go to sign in page" href="#" onclick="showSignInPage()">Sign-In</a></li>
+            <li name="signedOutMenu" style="display: none;"><a id="signUpButton" title="Go to sign up page" href="#" onclick="showSignupPage()">Sign-Up</a></li>
+            <li name="signedInMenu"><a id="signOutButton" title="Sign out of the current user" href="#" onclick="handleSignOut()">Sign-Out</a></li>
+            <li name="signedInMenu" style="display: none;"><a id="menuShowCurrentOrdersClick" title="Show the orders I still need to provide" href="#" onclick="showLiveOrdersTable();return false;">On Going Orders</a></li>
+            <li name="signedInMenu" style="display: none;"><a id="menuShowOnholdOrdersClick" title="Show orders that were put on hold due to fulfillment issues" href="#" onclick="showOnholdOrdersTable();return false;">On Hold Orders</a></li>
+            <li name="signedInMenu" style="display: none;"><a id="menuShowTodaysFinishedOrdersClick" title="Show today's finished orders" href="#" onclick="showFinishedOrdersTable();return false;">Today's Finished Orders</a></li>
+            <li name="signedInMenu" style="display: none;"><a id="menuShowOrdersHistoryClick" title="Show all the orders ever made by Go4Eat" href="#" onclick="showOrdersHistoryTable();return false;">Orders History</a></li>
+            <li name="signedInMenu" style="display: none;"><a id="menuNotifyMissingIngridientsClick" title="Notify the app about missing ingridients (e.g: No more olives, No more sandwiches etc)" href="#" onclick="notifyMissingIngridients();return false;">Report Missing Ingridients</a></li>
+            <li name="signedInMenu" style="display: none;"><a id="menuUpdateRestaurantMenuClick" title="Update the restaurant's menu (e.g: New sandwich, Remove existing dishes etc)" href="#" onclick="showUpdateMyMenuPage();return false;">Update My Menu</a></li>
+          </ul>
+        </nav>
+      </div>
+      <!--End Pattern HTML-->
+      <div class="container"><!-- container -->
+        <div class="pageContent"><!-- pageContent -->
+          <table class="gridTable">
+            <tr class="gridTableTr">
+              <td class="gridTableTd" id="homePageObject">
+                <button class="mdl-button mdl-js-button mdl-button--raised" id="testingMSGS" name="testingMSGS" onclick="testingMSGS()">TESTING!!!</button><!-- TODO: REMOVE THIS BUTTON!!! -->
+                <img class="img-responsive" id="homeScreenLogo" src="go4eat-logo8.png" alt="go4eat_logo">
+              </td>
+              <td class="gridTableTd" name="basicPages" id="signInPageTd" style="display: none;">
+                <!-- Sign in form -->
+                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+                  <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
+                    <h2 class="mdl-card__title-text">Sign In</h2>
+                  </div>
+                  <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                    <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email"/>
+                    &nbsp;&nbsp;&nbsp;
+                    <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="password" name="password" placeholder="Password"/>
+                    &nbsp;&nbsp;&nbsp;
+                    <button class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-sign-in" name="signin" onclick="handleSignIn()">Sign In</button>
+                    <br/>
+                    <a href="#" id="quickstart-password-reset" name="verify-email" style="font-size: 70%;" onclick="sendPasswordReset()">Forgot your password?</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="#" id="quickstart-sign-up" name="signup" style="font-size: 70%;" onclick="handleSignUp()">Not yet registered? Sign-up</a>
+                  </div>
+                </div>
+              </td>
+              <td class="gridTableTd" name="basicPages" id="signUpPageTd" style="display: none;">
+                <!-- Sign in form -->
+                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+                  <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
+                    <h2 class="mdl-card__title-text">Sign Up</h2>
+                    <a href="#" id="quickstart-password-reset" name="verify-email" style="font-size: 60%;" onclick="sendPasswordReset()">Registered but forgot your password?</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="#" id="signUpPage-sign-in" name="signup" style="font-size: 60%;" onclick="showSignInPage()">Already registered? Sign-in</a>
+                  </div>
+                  <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                    <br>
+                    <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="providerName" name="providerName" placeholder="Buisness Name"/>
+                    <br><br>
+                    <!-- <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="firstName" name="firstName" placeholder="First Name"/>
+                    <br><br>
+                    <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="lastName" name="lastName" placeholder="Last Name"/>
+                    <br><br> -->
+                    <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="signUpPage-email" name="email" placeholder="Email"/>
+                    <br><br>
+                    <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="signUpPage-password" name="password" placeholder="Password"/>
+                    <br><br>
+                    <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="repeatPassword" name="repeatPassword" placeholder="Repeat Password"/>
+                    <br><br>
+                    <button class="mdl-button mdl-js-button mdl-button--raised" id="signUpPage-sign-in" name="signin" onclick="handleSignUp()">Sign Up</button>
+                    <br/>
+                  </div>
+                </div>
+              </td>
+              <td name="providerPages" id="ordersTableTd" class="gridTableTd" style="display: none;">
+                <table id="ordersTable" style="width:100%; border-color: black; border-style:solid; border-width: thin;">
+                  <tr style="width:100%;">
+                    <th id="ordersTableDateHeader" style="width:100%; text-align:center; background-color: orange;">On Going Orders<!-- PUT TODAYS DATE HERE --></th>
+                  </tr>
+                  <tr style="width:100%;">
+                    <td id="ordersTableInjectPoint"  name="providerTablesInjection" style="width:100%;"></td>
+                  </tr>
+                </table>
+              </td>
+              <td name="providerPages" id="onholdOrdersTableTd" class="gridTableTd" style="display: none;">
+                <table id="onholdOrdersTable" style="width:100%; border-color: black; border-style:solid; border-width: thin;">
+                  <tr style="width:100%;">
+                    <th id="onholdOrdersTableDateHeader" style="width:100%; text-align:center; background-color: orange;">On Hold Orders<!-- PUT TODAYS DATE HERE --></th>
+                  </tr>
+                  <tr style="width:100%;">
+                    <td id="onholdOrdersTableInjectPoint" name="providerTablesInjection" style="width:100%;"></td>
+                  </tr>
+                </table>
+              </td>
+              <td name="providerPages" id="finishedOrdersTableTd" class="gridTableTd" style="display: none;">
+                <table id="finishedOrdersTable" style="width:100%; border-color: black; border-style:solid; border-width: thin;">
+                  <tr style="width:100%;">
+                    <th id="finishedOrdersTableDateHeader" style="width:100%; text-align:center; background-color: orange;">Finished Orders<!-- PUT TODAYS DATE HERE --></th>
+                  </tr>
+                  <tr style="width:100%;">
+                    <td id="finishedOrdersTableInjectPoint" name="providerTablesInjection" style="width:100%;"></td>
+                  </tr>
+                </table>
+              </td>
+              <td name="providerPages" id="ordersHistoryTableTd" class="gridTableTd" style="display: none;"><h1>Orders History</h1><img class="img-responsive" src="under_construction_hummer-512.png" alt="go4eat_logo"></td>
+              <td name="providerPages" id="missingIngridientsReportTd" class="gridTableTd" style="display: none;"><h1>Report Missing Ingridients</h1><img class="img-responsive" src="under_construction_hummer-512.png" alt="go4eat_logo"></td>
+              <td name="providerPages" id="updateMenuScreenTd" class="gridTableTd" style="display: none;"><h1>Update My menu</h1><img class="img-responsive" src="under_construction_hummer-512.png" alt="go4eat_logo"></td>
+            </tr>
+          </table>
+        </div><!--pageContent-->
+      </div><!--container-->
+    </div><!--signed_in_body-->
+  </body>
+</html>
